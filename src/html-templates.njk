@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <base href="/1-html-templates/">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>[1] HTML Template</title>
-  <link rel="stylesheet" href="../common/base.css">
-  
+{% extends 'application.njk' %}
+{% block head %}
   <style>
     .verse {
       font-family: monospace;
@@ -23,24 +15,12 @@
     }
     */
   </style>
-</head>
-<body>
-  <nav>
-    <a href="../">HOME</a>
-    <a href="../0-vanilla-html/">Vanilla HTML</a>
-    <a href="../1-html-templates/">HTML Templates</a>
-    <a href="../2-shadow-dom/">Shadow DOM</a>
-    <a href="../3-autonomous-custom-element/">Autonomous Custom Element</a>
-    <a href="../4-html-imports/">HTML Imports</a>
-    <a href="../5-es-modules/">ES Modules</a>
-  </nav>
-  <main>
-    <h1 class="pageTitle">HTML Templates</h1>
-    <p>
-      <button id="restart" type="button">Restart</button> 
-    </p>
-    <div id="song"></div>
-  </main>
+{% endblock %}
+{% block content %}
+  <p>
+    <button id="restart" type="button">Restart</button> 
+  </p>
+  <div id="song"></div>
   
   <!-- ===== [2] ===== -->
   <template id="verse">
@@ -90,5 +70,4 @@
 
       - Not good if your custom element contains legal info, branding, or other style restrictions.
   -->
-</body>
-</html>
+{% endblock %}

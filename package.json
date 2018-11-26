@@ -1,0 +1,28 @@
+{
+  "name": "wc-workshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CITguy/wc-workshop.git"
+  },
+  "keywords": [],
+  "author": "Ryan Johnson <rhino.citguy@gmail.com> (http://citguy.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CITguy/wc-workshop/issues"
+  },
+  "homepage": "https://github.com/CITguy/wc-workshop#readme",
+  "devDependencies": {
+    "chokidar": "^2.0.4",
+    "express": "^4.16.4",
+    "http-errors": "^1.7.1",
+    "morgan": "^1.9.1",
+    "nunjucks": "^3.1.4"
+  }
+}

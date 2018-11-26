@@ -1,0 +1,49 @@
+{% extends 'application.njk' %}
+{% block head %}
+  <!-- ===== [1] ===== -->
+  <link rel="import" href="./never-ending-song.html">
+{% endblock %}
+
+{% block content %}
+  <!-- ===== [2] ===== -->
+  <p>
+    <b>NOTE:</b> Currently only works in Chrome and Opera.
+  </p>
+  <p>
+    <b>Do not use this technique for production code.</b><br />
+    HTML Imports are deprecated and slated to be removed from Blink along with
+    Shadow DOM v0 and Custom Elements v0.
+    <br />
+    <a href="goo.gl/Kc5pkc">Intent to Remove (Chromium/Blink)</a>
+  </p>
+
+  <p>
+    <button id="restart" type="button">Restart</button> 
+  </p>
+
+  <never-ending-song id="song">
+    <b>ERROR</b> - Cannot initialize <code>&lt;never-ending-song&gt;</code>.
+  </never-ending-song>
+
+  <script>
+    (function () {
+      var song = document.getElementById('song');
+      var btnRestart = document.getElementById('restart');
+
+      btnRestart.addEventListener('click', function () {
+        song.restart();
+      });
+    })();
+  </script>
+
+  <!--
+    SOLVED:
+      [1] Modularized the full definition of <never-ending-song> for reuse across multiple documents.
+
+    PROBLEM:
+      [2] HTML Imports only work in Chrome and Opera.
+          The Chromium/Blink group has announced their intent to remove HTML Imports (along with 
+          Shadow DOM v0 and Custom Elements v0 functionality) in an upcoming Blink release.
+          - https://goo.gl/Kc5pkc
+  -->
+{% endblock %}

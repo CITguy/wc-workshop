@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>
+    {% if lesson %}[{{lesson}}]{% endif %}
+    {{ title }}
+  </title>
+  <link rel="stylesheet" href="app.css">
+  {%- block head -%}{%- endblock -%}
+</head>
+<body>
+  <!-- TODO: either convert to partial or dynamically render via express -->
+  <nav>
+    <a href="/">HOME</a>
+    <a href="/vanilla-html/">Lesson 1: Vanilla HTML</a>
+    <a href="/html-templates/">Lesson 2: HTML Templates</a>
+    <a href="/shadow-dom/">Lesson 3: Shadow DOM</a>
+    <a href="/autonomous-custom-elements/">Lesson 4: Autonomous Custom Element</a>
+    <a href="/html-imports/">Lesson 5: HTML Imports</a>
+    <a href="/es-modules/">Lesson 6: ES Modules</a>
+  </nav>
+  <main>
+    <h1 class="pageTitle">{{ title }}</h1>
+    {%- block content %}
+      No content defined. :(
+    {% endblock -%}
+  </main>
+</body>
+</html>
+

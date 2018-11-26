@@ -1,26 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <base href="/3-autonomous-custom-element/">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>[3] Autonomous Custom Element</title>
-  <link rel="stylesheet" href="../common/base.css">
-</head>
-<body>
-  <nav>
-    <a href="../">HOME</a>
-    <a href="../0-vanilla-html/">Vanilla HTML</a>
-    <a href="../1-html-templates/">HTML Templates</a>
-    <a href="../2-shadow-dom/">Shadow DOM</a>
-    <a href="../3-autonomous-custom-element/">Autonomous Custom Element</a>
-    <a href="../4-html-imports/">HTML Imports</a>
-    <a href="../5-es-modules/">ES Modules</a>
-  </nav>
-  
+{% extends 'application.njk' %}
+{% block content %}
   <main>
-    <h1 class="pageTitle">Autonomous Custom Element</h1>
     <p>
       <button id="restart" type="button">Restart</button> 
     </p>
@@ -137,5 +117,4 @@
     PROBLEM:
     - How can I share <never-ending-song> for reuse in other pages?
   -->
-</body>
-</html>
+{% endblock %}
