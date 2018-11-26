@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <base href="/2-shadow-dom/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>[2] Shadow DOM</title>
+  <link rel="stylesheet" href="../common/base.css">
+
+  <style>
+    /* ===== [1] ===== */
+    /* Simulate an "accidental" modification to the verse styles. */
+    .line { 
+      color: blue; 
+      font-family: cursive; 
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../">HOME</a>
+    <a href="../0-vanilla-html/">Vanilla HTML</a>
+    <a href="../1-html-templates/">HTML Templates</a>
+    <a href="../2-shadow-dom/">Shadow DOM</a>
+    <a href="../3-autonomous-custom-element/">Autonomous Custom Element</a>
+    <a href="../4-html-imports/">HTML Imports</a>
+    <a href="../5-es-modules/">ES Modules</a>
+  </nav>
+
+  <main>
+    <h1 class="pageTitle">Shadow DOM</h1>
+    <p>
+      <button id="restart" type="button">Restart</button> 
+    </p>
+    <div id="song"></div>
+  </main>
+  
+  <template id="verse">
+    <!-- ===== [2] ===== -->
+    <style>
+      .verse {
+        font-family: monospace;
+        margin: 0 0 1em 1em;
+      }
+    </style>
+
+    <div class="verse">
+      <div class="line">This is the song that doesn't end</div>
+      <div class="line">Yes, it goes on and on my friend</div>
+      <div class="line">Some people started singing it, not knowing what it was</div>
+      <div class="line">And they'll continue singing it forever just because</div>
+    </div>
+  </template>
+  
+  <script>
+    (function () {
+      var song = document.getElementById('song');
+      var btnRestart = document.getElementById('restart');
+      var verse = document.querySelector('template#verse');
+
+      /* ===== [3] ===== */
+      // OPTION 1: "open" Shadow Root
+      song.attachShadow({ mode: 'open' });
+      // OPTION 2: "closed" Shadow Root
+      //var _$song = song.attachShadow({ mode: 'closed' });
+
+      function singOpen () {
+        song.shadowRoot.appendChild(verse.content.cloneNode(true));
+      }
+      function singClosed () {
+        _$song.appendChild(verse.content.cloneNode(true));
+      }
+
+      function restartOpen () {
+        song.shadowRoot.innerHTML = '';
+      }
+      function restartClosed () {
+        _$song.innerHTML = '';
+      }
+
+      // Start Singing
+      singOpen();
+      // Keep singing... forever
+      window.setInterval(singOpen, 5000);
+
+      // Wire up "Restart" behavior
+      btnRestart.addEventListener('click', restartOpen);
+    })();
+  </script>
+
+  <!--
+    SOLVED:
+      Protected accidental CSS modification by encapsulating CSS in the ShadowDOM.
+
+      - [1] Global CSS doesn't affect Shadow DOM styling
+      - [2] Styles moved into the <template>
+      - [3] attachShadow() creates a shadow root for adding content (i.e., "Shadow DOM") that is 
+        "isolated" from the parent DOM (i.e., "Light DOM").
+
+    NOTES:
+      - Polyfills may be required if the browser doesn't support the ShadowDOM v1 API.
+      - [3] attachShadow() configured with one of two modes:
+        - attachShadow({ mode: 'open' })
+          - RECOMMENDED
+          - Shadow DOM content is "open" and available to Light DOM JavaScript via the el.shadowRoot property.
+          - This mode provides more access to perform tests against Shadow DOM updates.
+        - attachShadow({ mode: 'closed' })
+          - TL;DR: Save yourself the headache and avoid using this mode unless you have a really good reason for it.
+          - Shadow DOM content is "closed" off from Light DOM JavaScript.
+          - App code will NOT have access to the shadow root if you haven't captured 
+            the return value to a variable.
+
+    PROBLEM:
+      There's a lot of boilerplate needed to manually wire up functionality.
+
+      - What if we wanted to have two or more songs singing at once?
+      - How can we reapply the same behavior without rewriting all the boilerplate?
+  -->
+</body>
+</html>

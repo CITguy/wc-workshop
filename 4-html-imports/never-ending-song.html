@@ -1,0 +1,65 @@
+<template id="never-ending-song.html">
+  <style>
+    .verse {
+      font-family: monospace;
+      margin: 0 0 1em 1em;
+    }
+  </style>
+  <div class="verse">
+    <div class="line">This is the song that doesn't end</div>
+    <div class="line">Yes, it goes on and on my friend</div>
+    <div class="line">Some people started singing it, not knowing what it was</div>
+    <div class="line">And they'll continue singing it forever just because</div>
+  </div>
+</template>
+
+<script>
+  (function (){
+    // reference to the import's document (HTML import equivalent to "this")
+    let doc = document.currentScript.ownerDocument;
+
+    let verse = doc.getElementById('never-ending-song.html');
+
+    class NeverEndingSong extends HTMLElement {
+      constructor () {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+
+      connectedCallback () {
+        // Don't start until attached to the DOM
+        this.start();
+      }
+
+      disconnectedCallback () {
+        // Stop singing if element is no longer attached to the DOM
+        this.stop();
+      }
+
+      clear () {
+        this.shadowRoot.innerHTML = '';
+      }
+
+      restart () {
+        this.stop();
+        this.clear();
+        this.start();
+      }
+
+      singVerse () {
+        this.shadowRoot.appendChild(verse.content.cloneNode(true));
+      }
+
+      start () {
+        this.singVerse();
+        this._interval = window.setInterval(this.singVerse.bind(this), 5000);
+      }
+
+      stop () {
+        window.clearInterval(this._interval);
+      }
+    }
+
+    window.customElements.define('never-ending-song', NeverEndingSong);
+  })();
+</script>

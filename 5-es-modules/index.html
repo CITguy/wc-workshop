@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <base href="/5-es-modules/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>[4] Never Ending Song</title>
+  <link rel="stylesheet" href="../common/base.css">
+</head>
+<body>
+  <nav>
+    <a href="../">HOME</a>
+    <a href="../0-vanilla-html/">Vanilla HTML</a>
+    <a href="../1-html-templates/">HTML Templates</a>
+    <a href="../2-shadow-dom/">Shadow DOM</a>
+    <a href="../3-autonomous-custom-element/">Autonomous Custom Element</a>
+    <a href="../4-html-imports/">HTML Imports</a>
+    <a href="../5-es-modules/">ES Modules</a>
+  </nav>
+  
+  <main>
+    <h1 class="pageTitle">ES6 Module</h1>
+    <p>
+      <button id="restart" type="button">Restart</button> 
+    </p>
+    <never-ending-song id="song"></never-ending-song>
+  </main>
+  
+  <script nomodule>
+    alert('Sadly, your browser is too old to run this example.');
+  </script>
+  
+  <script type="module">
+    /* ===== [1][2] ===== */
+    import NeverEndingSong from './NeverEndingSong.module.js';
+
+    let btnRestart = document.getElementById('restart');
+    let song = document.getElementById('song');
+
+    /* ===== [2] ===== */
+    NeverEndingSong.upgrade();
+
+    btnRestart.addEventListener('click', function () {
+      song.restart();
+    });
+  </script>
+
+  <!--
+    SOLVES:
+      - Centralized, sharable functionality with little to no configuration needed to consume.
+
+    NOTE:
+      [1] 
+        - Normally you'd use a .mjs extension, to adhere to the community standard for naming
+          ES6 modules (mainly to support Node.js). However, the browser requires the module to
+          be served as a valid JavaScript MIME type, and .mjs as JavaScript isn't currently 
+          baked-in to any web servers or browsers.
+        - The path to the module must be a valid URI (absolute or relative URI), including extension.
+      [2]
+        - There are a couple ways to upgrade the <never-ending-song> element.
+          1. Upgrade immediately on load (call upgrade() within the module code)
+            - automatic, load and go
+          2. Upgrade manually (call upgrade() in the parent module)
+            - gives more control to the consumer
+
+    PROBLEM:
+      - Edge and IE don't have built-in support for web component APIs
+      - IE doesn't understand ES6
+  -->
+</body>
+</html>

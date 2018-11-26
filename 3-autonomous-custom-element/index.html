@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <base href="/3-autonomous-custom-element/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>[3] Autonomous Custom Element</title>
+  <link rel="stylesheet" href="../common/base.css">
+</head>
+<body>
+  <nav>
+    <a href="../">HOME</a>
+    <a href="../0-vanilla-html/">Vanilla HTML</a>
+    <a href="../1-html-templates/">HTML Templates</a>
+    <a href="../2-shadow-dom/">Shadow DOM</a>
+    <a href="../3-autonomous-custom-element/">Autonomous Custom Element</a>
+    <a href="../4-html-imports/">HTML Imports</a>
+    <a href="../5-es-modules/">ES Modules</a>
+  </nav>
+  
+  <main>
+    <h1 class="pageTitle">Autonomous Custom Element</h1>
+    <p>
+      <button id="restart" type="button">Restart</button> 
+    </p>
+    <!-- ===== [1] ===== -->
+    <!-- 
+      At this point, in the loading process, the browser classifies <never-ending-song> 
+      as an "unknown element". As such, the browser will style it as if it were an inline
+      element like <span>.
+    -->
+    <never-ending-song id="song">
+      <!-- 
+        This content will be displayed if the browser fails to "upgrade" <never-ending-song> to
+        a custom element. 
+
+        If the upgrade succeeds, this will be replaced with Shadow DOM content.
+      -->
+      <b>ERROR</b> - Cannot initialize <code>&lt;never-ending-song&gt;</code>.
+    </never-ending-song>
+  </main>
+  
+  <template id="verse">
+    <style>
+      .verse {
+        font-family: monospace;
+        margin: 0 0 1em 1em;
+      }
+    </style>
+    <div class="verse">
+      <div class="line">This is the song that doesn't end</div>
+      <div class="line">Yes, it goes on and on my friend</div>
+      <div class="line">Some people started singing it, not knowing what it was</div>
+      <div class="line">And they'll continue singing it forever just because</div>
+    </div>
+  </template>
+
+  <script>
+    /* ===== [2] ===== */
+    /* Define <never-ending-song> */
+    (function (){
+      /* ===== [3] ===== */
+      var verse = document.querySelector('template#verse');
+
+      /* ===== [4] ===== */
+      // Define behavior for <never-ending-song>
+      // At this point, the browser needs to understand ES6, because the Custom Elements v1 spec
+      // requires the use of ES6 'class' syntax in order to extend from HTMLElement.*
+      class NeverEndingSong extends HTMLElement {
+        constructor () {
+          super();
+          this.attachShadow({ mode: 'open' });
+        }
+
+        connectedCallback () {
+          // Don't start until attached to the DOM
+          this.start();
+        }
+
+        disconnectedCallback () {
+          // Stop singing if element is no longer attached to the DOM
+          this.stop();
+        }
+
+        clear () {
+          this.shadowRoot.innerHTML = '';
+        }
+
+        restart () {
+          this.stop();
+          this.clear();
+          this.start();
+        }
+
+        singVerse () {
+          this.shadowRoot.appendChild(verse.content.cloneNode(true));
+        }
+
+        start () {
+          this.singVerse();
+          this._interval = window.setInterval(this.singVerse.bind(this), 5000);
+        }
+
+        stop () {
+          window.clearInterval(this._interval);
+        }
+      }
+
+      /* ===== [5] ===== */
+      // Register <never-ending-song> with the browser, so that it knows 
+      // how to "upgrade" an unknown element into a custom element.
+      customElements.define('never-ending-song', NeverEndingSong);
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var song = document.getElementById('song');
+      var btnRestart = document.getElementById('restart');
+
+      btnRestart.addEventListener('click', function () {
+        /* ===== [6] ===== */
+        song.restart();
+      });
+    })();
+  </script>
+
+  <!--
+    SOLVED:
+      Modularized the boilerplate for the never ending song behavior in a way that automatically
+      initializes behavior for every <never-ending-song> element.
+
+    NOTE:
+      - [4] There are workarounds to support older browsers that don't understand ES6 classes.
+
+    PROBLEM:
+    - How can I share <never-ending-song> for reuse in other pages?
+  -->
+</body>
+</html>

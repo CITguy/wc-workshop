@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <base href="/1-html-templates/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>[1] HTML Template</title>
+  <link rel="stylesheet" href="../common/base.css">
+  
+  <style>
+    .verse {
+      font-family: monospace;
+      margin: 0 0 1em 1em;
+    }
+    
+    /* ===== [1] ===== */
+    /* Simulate an "accidental" modification of the verse styles. */
+    /*
+    .line { 
+      color: blue; 
+      font-family: cursive; 
+    }
+    */
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../">HOME</a>
+    <a href="../0-vanilla-html/">Vanilla HTML</a>
+    <a href="../1-html-templates/">HTML Templates</a>
+    <a href="../2-shadow-dom/">Shadow DOM</a>
+    <a href="../3-autonomous-custom-element/">Autonomous Custom Element</a>
+    <a href="../4-html-imports/">HTML Imports</a>
+    <a href="../5-es-modules/">ES Modules</a>
+  </nav>
+  <main>
+    <h1 class="pageTitle">HTML Templates</h1>
+    <p>
+      <button id="restart" type="button">Restart</button> 
+    </p>
+    <div id="song"></div>
+  </main>
+  
+  <!-- ===== [2] ===== -->
+  <template id="verse">
+    <div class="verse">
+      <div class="line">This is the song that doesn't end</div>
+      <div class="line">Yes, it goes on and on my friend</div>
+      <div class="line">Some people started singing it, not knowing what it was</div>
+      <div class="line">And they'll continue singing it forever just because</div>
+    </div>
+  </template>
+  
+  <script>
+    (function () {
+      var song = document.getElementById('song');
+      var btnRestart = document.getElementById('restart');
+      /* ===== [3] ===== */
+      var verse = document.querySelector('template#verse');
+
+      /* ----- [4] ----- */
+      function sing () {
+        song.appendChild(verse.content.cloneNode(true));
+      }
+
+      // Start Singing
+      sing();
+      // Keep singing... forever
+      window.setInterval(sing, 5000);
+
+      // Wire up "Restart" behavior
+      btnRestart.addEventListener('click', function () {
+        song.innerHTML = '';
+      });
+    })();
+  </script>
+
+  <!--
+    SOLVED:
+      - [2] Verse markup defined in plain HTML within a <template> element.
+      - [3][4] Verse template cloned instead of manually rebuilding from scratch.
+
+    NOTE:
+      - [4] verse.content will "dissolve" after you get its value for the first time
+      - [4] verse.content.cloneNode(true) keeps the content from dissolving
+
+    PROBLEM:
+      [1] Styles for the verse are GLOBAL. External CSS can accidentally modify verse appearance.
+
+      - Not good if your custom element contains legal info, branding, or other style restrictions.
+  -->
+</body>
+</html>
