@@ -2,7 +2,7 @@
 {% block head %}
   <style>
     /* ===== [1] ===== */
-    /* Simulate an "accidental" modification to the verse styles. */
+    /* Simulates an "accidental" modification to the verse styles. */
     .line { 
       color: blue; 
       font-family: cursive; 
@@ -14,6 +14,7 @@
   <p>
     <button id="restart" type="button">Restart</button> 
   </p>
+
   <div id="song"></div>
   
   <template id="verse">
@@ -34,39 +35,37 @@
   </template>
   
   <script>
-    (function () {
-      var song = document.getElementById('song');
-      var btnRestart = document.getElementById('restart');
-      var verse = document.querySelector('template#verse');
+    const elSong = document.getElementById('song')
+    const btnRestart = document.getElementById('restart')
+    const tmpVerse = document.querySelector('template#verse')
 
-      /* ===== [3] ===== */
-      // OPTION 1: "open" Shadow Root
-      song.attachShadow({ mode: 'open' });
-      // OPTION 2: "closed" Shadow Root
-      //var _$song = song.attachShadow({ mode: 'closed' });
+    /* ===== [3] ===== */
+    // OPTION 1: "open" Shadow Root
+    elSong.attachShadow({ mode: 'open' })
+    // OPTION 2: "closed" Shadow Root
+    //let _$song = elSong.attachShadow({ mode: 'closed' })
 
-      function singOpen () {
-        song.shadowRoot.appendChild(verse.content.cloneNode(true));
-      }
-      function singClosed () {
-        _$song.appendChild(verse.content.cloneNode(true));
-      }
+    function sing () {
+      let cloneVerse = tmpVerse.content.cloneNode(true)
 
-      function restartOpen () {
-        song.shadowRoot.innerHTML = '';
-      }
-      function restartClosed () {
-        _$song.innerHTML = '';
-      }
+      // OPTION 1: "open" shadow root
+      elSong.shadowRoot.appendChild(cloneVerse)
+      // OPTION 2: "closed" shadow root
+      //_$song.appendChild(cloneVerse)
+    }
 
-      // Start Singing
-      singOpen();
-      // Keep singing... forever
-      window.setInterval(singOpen, 5000);
+    function restart () {
+      // OPTION 1: "open" shadow root
+      elSong.shadowRoot.innerHTML = ''
+      // OPTION 2: "closed" shadow root
+      //_$song.innerHTML = ''
+    }
 
-      // Wire up "Restart" behavior
-      btnRestart.addEventListener('click', restartOpen);
-    })();
+    sing() // Start Singing
+    window.setInterval(sing, 5000) // Keep singing... forever
+
+    // Wire up "restart" behavior
+    btnRestart.addEventListener('click', restart)
   </script>
 
   <!--

@@ -6,22 +6,22 @@
   <never-ending-song id="song"></never-ending-song>
   
   <script nomodule>
-    alert('Sadly, your browser is too old to run this example.');
+    alert('Sadly, your browser is too old to run this example.')
   </script>
   
   <script type="module">
     /* ===== [1][2] ===== */
-    import NeverEndingSong from './NeverEndingSong.module.js';
+    import NeverEndingSong from './NeverEndingSong.module.js'
 
-    let btnRestart = document.getElementById('restart');
-    let song = document.getElementById('song');
+    const btnRestart = document.getElementById('restart')
+    const elSong = document.getElementById('song')
 
     /* ===== [2] ===== */
     NeverEndingSong.upgrade();
 
     btnRestart.addEventListener('click', function () {
-      song.restart();
-    });
+      song.restart()
+    })
   </script>
 
   <!--

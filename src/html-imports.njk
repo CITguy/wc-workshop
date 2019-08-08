@@ -26,14 +26,12 @@
   </never-ending-song>
 
   <script>
-    (function () {
-      var song = document.getElementById('song');
-      var btnRestart = document.getElementById('restart');
+    const elSong = document.getElementById('song')
+    const btnRestart = document.getElementById('restart')
 
-      btnRestart.addEventListener('click', function () {
-        song.restart();
-      });
-    })();
+    btnRestart.addEventListener('click', function () {
+      elSong.restart()
+    })
   </script>
 
   <!--

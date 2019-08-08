@@ -14,52 +14,50 @@
 </template>
 
 <script>
-  (function (){
-    // reference to the import's document (HTML import equivalent to "this")
-    let doc = document.currentScript.ownerDocument;
+  // reference to the import's document (HTML import equivalent to "this")
+  const doc = document.currentScript.ownerDocument
+  const tmpVerse = doc.getElementById('never-ending-song.html')
 
-    let verse = doc.getElementById('never-ending-song.html');
-
-    class NeverEndingSong extends HTMLElement {
-      constructor () {
-        super();
-        this.attachShadow({ mode: 'open' });
-      }
-
-      connectedCallback () {
-        // Don't start until attached to the DOM
-        this.start();
-      }
-
-      disconnectedCallback () {
-        // Stop singing if element is no longer attached to the DOM
-        this.stop();
-      }
-
-      clear () {
-        this.shadowRoot.innerHTML = '';
-      }
-
-      restart () {
-        this.stop();
-        this.clear();
-        this.start();
-      }
-
-      singVerse () {
-        this.shadowRoot.appendChild(verse.content.cloneNode(true));
-      }
-
-      start () {
-        this.singVerse();
-        this._interval = window.setInterval(this.singVerse.bind(this), 5000);
-      }
-
-      stop () {
-        window.clearInterval(this._interval);
-      }
+  class NeverEndingSong extends HTMLElement {
+    constructor () {
+      super()
+      this.attachShadow({ mode: 'open' })
     }
 
-    window.customElements.define('never-ending-song', NeverEndingSong);
-  })();
+    connectedCallback () {
+      // Don't start until attached to the DOM
+      this.start()
+    }
+
+    disconnectedCallback () {
+      // Stop singing if element is no longer attached to the DOM
+      this.stop()
+    }
+
+    clear () {
+      this.shadowRoot.innerHTML = ''
+    }
+
+    restart () {
+      this.stop()
+      this.clear()
+      this.start()
+    }
+
+    singVerse () {
+      let cloneVerse = tmpVerse.content.cloneNode(true)
+      this.shadowRoot.appendChild(cloneVerse)
+    }
+
+    start () {
+      this.singVerse()
+      this._interval = window.setInterval(this.singVerse.bind(this), 5000)
+    }
+
+    stop () {
+      window.clearInterval(this._interval)
+    }
+  }
+
+  window.customElements.define('never-ending-song', NeverEndingSong)
 </script>

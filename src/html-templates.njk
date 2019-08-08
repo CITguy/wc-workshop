@@ -7,7 +7,7 @@
     }
     
     /* ===== [1] ===== */
-    /* Simulate an "accidental" modification of the verse styles. */
+    /* Uncomment to simulate an "accidental" modification of the line styles. */
     /*
     .line { 
       color: blue; 
@@ -16,10 +16,12 @@
     */
   </style>
 {% endblock %}
+
 {% block content %}
   <p>
     <button id="restart" type="button">Restart</button> 
   </p>
+
   <div id="song"></div>
   
   <!-- ===== [2] ===== -->
@@ -33,27 +35,23 @@
   </template>
   
   <script>
-    (function () {
-      var song = document.getElementById('song');
-      var btnRestart = document.getElementById('restart');
-      /* ===== [3] ===== */
-      var verse = document.querySelector('template#verse');
+    const elSong = document.getElementById('song')
+    const btnRestart = document.getElementById('restart')
+    const tmpVerse = document.querySelector('template#verse') /* [3] */
 
-      /* ----- [4] ----- */
-      function sing () {
-        song.appendChild(verse.content.cloneNode(true));
-      }
+    /* ----- [4] ----- */
+    function sing () {
+      let cloneVerse = tmpVerse.content.cloneNode(true)
+      elSong.appendChild(cloneVerse)
+    }
 
-      // Start Singing
-      sing();
-      // Keep singing... forever
-      window.setInterval(sing, 5000);
+    sing() // Start Singing
+    window.setInterval(sing, 5000) // Keep singing... forever
 
-      // Wire up "Restart" behavior
-      btnRestart.addEventListener('click', function () {
-        song.innerHTML = '';
-      });
-    })();
+    // Wire up "restart" behavior
+    btnRestart.addEventListener('click', function () {
+      elSong.innerHTML = ''
+    })
   </script>
 
   <!--

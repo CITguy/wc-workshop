@@ -13,53 +13,46 @@
   <p>
     <button id="restart" type="button">Restart</button> 
   </p>
+
   <!-- ===== [2] ===== -->
   <div id="song"></div>
   
   <script>
-    (function () {
-      var song = document.getElementById('song');
-      var btnRestart = document.getElementById('restart');
+    const elSong = document.getElementById('song')
+    const btnRestart = document.getElementById('restart')
 
-      /* ===== [3] ===== */
-      var VERSE_LINES = [
-        'This is the song that doesn\'t end',
-        'Yes, it goes on and on my friend',
-        'Some people started singing it, not knowing what it was',
-        'And they\'ll continue singing it forever just because'
-      ];
+    /* ===== [3] ===== */
+    const VERSE_LINES = [
+      "This is the song that doesn't end",
+      "Yes, it goes on and on my friend",
+      "Some people started singing it, not knowing what it was",
+      "And they'll continue singing it forever just because"
+    ]
 
-      /* ===== [4] ===== */
-      function sing () {
-        /* <div></div> */
-        var newVerse = document.createElement('div');
-        /* <div class="verse"></div> */
-        newVerse.classList.add('verse');
+    /* ===== [4] ===== */
+    function sing () {
+      // Initialize the VERSE container
+      let newVerse = document.createElement('div') /* <div></div> */
+      newVerse.classList.add('verse') /* <div class="verse"></div> */
 
-        VERSE_LINES.forEach(function (_line) {
-          /* <div></div> */
-          var elLine = document.createElement('div');
-          /* <div class="line"></div> */
-          elLine.classList.add('line');
-          /* <div class="line">...</div> */
-          elLine.innerText = _line;
+      // build each LINE container
+      VERSE_LINES.forEach(function (_line) {
+        let elLine = document.createElement('div') /* <div></div> */
+        elLine.classList.add('line') /* <div class="line"></div> */
+        elLine.innerText = _line /* <div class="line">...</div> */
+        newVerse.appendChild(elLine) // append LINE to the VERSE
+      })
 
-          newVerse.appendChild(elLine);
-        });
+      elSong.appendChild(newVerse)
+    }
 
-        song.appendChild(newVerse);
-      }
+    sing() // Start Singing
+    window.setInterval(sing, 5000) // Keep singing... forever
 
-      // Start Singing
-      sing();
-      // Keep singing... forever
-      window.setInterval(sing, 5000);
-
-      // Wire up "Restart" behavior
-      btnRestart.addEventListener('click', function () {
-        song.innerHTML = '';
-      });
-    })();
+    // Wire up "restart" behavior
+    btnRestart.addEventListener('click', function () {
+      elSong.innerHTML = ''
+    })
   </script>
 
   <!--

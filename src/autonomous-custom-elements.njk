@@ -4,6 +4,7 @@
     <p>
       <button id="restart" type="button">Restart</button> 
     </p>
+
     <!-- ===== [1] ===== -->
     <!-- 
       At this point, in the loading process, the browser classifies <never-ending-song> 
@@ -39,71 +40,69 @@
   <script>
     /* ===== [2] ===== */
     /* Define <never-ending-song> */
-    (function (){
-      /* ===== [3] ===== */
-      var verse = document.querySelector('template#verse');
 
-      /* ===== [4] ===== */
-      // Define behavior for <never-ending-song>
-      // At this point, the browser needs to understand ES6, because the Custom Elements v1 spec
-      // requires the use of ES6 'class' syntax in order to extend from HTMLElement.*
-      class NeverEndingSong extends HTMLElement {
-        constructor () {
-          super();
-          this.attachShadow({ mode: 'open' });
-        }
+    /* ===== [3] ===== */
+    const tmpVerse = document.querySelector('template#verse')
 
-        connectedCallback () {
-          // Don't start until attached to the DOM
-          this.start();
-        }
-
-        disconnectedCallback () {
-          // Stop singing if element is no longer attached to the DOM
-          this.stop();
-        }
-
-        clear () {
-          this.shadowRoot.innerHTML = '';
-        }
-
-        restart () {
-          this.stop();
-          this.clear();
-          this.start();
-        }
-
-        singVerse () {
-          this.shadowRoot.appendChild(verse.content.cloneNode(true));
-        }
-
-        start () {
-          this.singVerse();
-          this._interval = window.setInterval(this.singVerse.bind(this), 5000);
-        }
-
-        stop () {
-          window.clearInterval(this._interval);
-        }
+    /* ===== [4] ===== */
+    // Define behavior for <never-ending-song>
+    // At this point, the browser needs to understand ES6, because the Custom Elements v1 spec
+    // requires the use of ES6 'class' syntax in order to extend from HTMLElement.*
+    class NeverEndingSong extends HTMLElement {
+      constructor () {
+        super()
+        this.attachShadow({ mode: 'open' })
       }
 
-      /* ===== [5] ===== */
-      // Register <never-ending-song> with the browser, so that it knows 
-      // how to "upgrade" an unknown element into a custom element.
-      customElements.define('never-ending-song', NeverEndingSong);
-    })();
+      connectedCallback () {
+        // Don't start until attached to the DOM
+        this.start()
+      }
+
+      disconnectedCallback () {
+        // Stop singing if element is no longer attached to the DOM
+        this.stop()
+      }
+
+      clear () {
+        this.shadowRoot.innerHTML = ''
+      }
+
+      restart () {
+        this.stop()
+        this.clear()
+        this.start()
+      }
+
+      singVerse () {
+        let cloneVerse = tmpVerse.content.cloneNode(true)
+        this.shadowRoot.appendChild(cloneVerse)
+      }
+
+      start () {
+        this.singVerse()
+        this._interval = window.setInterval(this.singVerse.bind(this), 5000)
+      }
+
+      stop () {
+        window.clearInterval(this._interval)
+      }
+    }
+
+    /* ===== [5] ===== */
+    // Register <never-ending-song> with the browser, so that it knows 
+    // how to "upgrade" an unknown element into a custom element.
+    customElements.define('never-ending-song', NeverEndingSong)
   </script>
 
   <script>
-    (function () {
-      var song = document.getElementById('song');
-      var btnRestart = document.getElementById('restart');
+    const elSong = document.getElementById('song')
+    const btnRestart = document.getElementById('restart')
 
-      btnRestart.addEventListener('click', function () {
-        /* ===== [6] ===== */
-        song.restart();
-      });
-    })();
+    btnRestart.addEventListener('click', function () {
+      /* ===== [6] ===== */
+      elSong.restart()
+    })
   </script>
 
   <!--
