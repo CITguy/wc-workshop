@@ -1,9 +1,10 @@
 # Web Components Workshop
 Source code to accompany a Web Components workshop.
 
+
 ## The Project
 The project for this workshop is to create a very simple app that "sings" along 
-with the "Song that Doesn't End" from teh children's show Lamb Chop's Play-Along!
+with the "Song that Doesn't End" from the children's show Lamb Chop's Play-Along!
 
 ### Prerequisites
 * `npm`
@@ -15,7 +16,6 @@ with the "Song that Doesn't End" from teh children's show Lamb Chop's Play-Along
   * Safari 10.1+
   * Opera 41+
 
-_\*Older browsers can be used, but some lessons are targeted to work in specific browsers._
 
 ## Setup
 
